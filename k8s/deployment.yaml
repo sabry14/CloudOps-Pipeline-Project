@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudops-deployment
+  namespace: cloudops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudops-app
+  template:
+    metadata:
+      labels:
+        app: cloudops-app
+    spec:
+      containers:
+      - name: cloudops-app
+        image: mosabry159/cloudops-app:v1
+        ports:
+        - containerPort: 8080
