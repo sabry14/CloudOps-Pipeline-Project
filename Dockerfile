@@ -1,12 +1,10 @@
-FROM node:18-alpine
+FROM node:current-slim
 
 WORKDIR /usr/src/app
-
-COPY temp-app/bulletin-board-app/package.json .
-
+COPY package.json .
 RUN npm install
-
-COPY temp-app/bulletin-board-app/ .
+COPY . .
 
 EXPOSE 8080
-CMD ["npm", "start"]
+CMD [ "npm", "start" ]
+
