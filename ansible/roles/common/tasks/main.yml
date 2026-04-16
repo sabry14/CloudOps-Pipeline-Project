@@ -1,0 +1,48 @@
+---
+- name: Update all packages
+  yum:
+    name: "*"
+    state: latest
+
+- name: Install Git
+  yum:
+    name: git
+    state: present
+
+- name: Add Corretto GPG key
+  rpm_key:
+    state: present
+    key: https://yum.corretto.aws/corretto.key
+
+- name: Add Corretto repo
+  get_url:
+    url: https://yum.corretto.aws/corretto.repo
+    dest: /etc/yum.repos.d/corretto.repo
+
+- name: Install Java 21
+  yum:
+    name: java-21-amazon-corretto-devel
+    state: present
+
+- name: Remove Java 17
+  yum:
+    name: java-17-amazon-corretto
+    state: absent
+
+
+- name: Install Docker
+  yum:
+    name: docker
+    state: present
+
+- name: Start and enable Docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add ec2-user to docker group
+  user:
+    name: ec2-user
+    groups: docker
+    append: yes
