@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: cloudops-app
-        image: mosabry159/cloudops-app:v1
+        image: mosabry159/cloudops-app:5
         ports:
         - containerPort: 8080
