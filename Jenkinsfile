@@ -23,19 +23,21 @@ pipeline {
                 sh "sed -i 's|image:.*|image: ${IMAGE_NAME}|' k8s/deployment.yaml"
             }
         }
-        stage('Push Manifests') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'github',
-                    usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh """
-                        git config user.email "ci@jenkins.com"
-                        git config user.name "Jenkins"
-                        git add k8s/deployment.yaml
-                        git commit -m "Update image to ${IMAGE_NAME}"
-                        git push https://${PASS}@github.com/sabry14/CloudOps-Pipeline-Project.git main
-                    """
-                }
-            }
-        }
+	stage('Push Manifests') {
+	    steps {
+	        withCredentials([usernamePassword(credentialsId: 'github',
+	            usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+	            sh """
+	                git config user.email "ci@jenkins.com"
+	                git config user.name "Jenkins"
+	                git checkout main
+	                git add k8s/deployment.yaml
+	                git commit -m "Update image to ${IMAGE_NAME}"
+	                git push https://\${PASS}@github.com/sabry14/CloudOps-Pipeline-Project.git HEAD:main
+	            """
+	        }
+	    }
+	}
+                        
     }
 }
